@@ -10,7 +10,7 @@ Kedua jenis proyek ini memiliki data umum yang sama (ID, nama, deadline), tetapi
 
 ---
 
-## 1. Penjelasan Alur Program
+## 1. Alur Program
 
 ### Langkah 1: Program dimulai
 > <img width="400" alt="image" src="https://github.com/user-attachments/assets/e1b7f560-e365-4c74-ab1b-7773e2674b2e" />
@@ -51,7 +51,7 @@ Disini pengguna diarahkan ke menu sesuai dengan angka yang dimasukkan. Setiap me
 
 ---
 
-## 2. Penjelasan Penerapan Encapsulation dan Inheritance
+## 2. Penerapan Encapsulation dan Inheritance
 
 ### Encapsulation 
 Encapsulation diterapkan dengan menyembunyikan data di dalam kelas dan hanya mengizinkan akses melalui method tertentu, bukan langsung dari luar.
@@ -138,7 +138,7 @@ Dengan inheritance, penambahan jenis proyek baru menjadi lebih mudah, cukup deng
 
 ---
 
-## 4. Penerapan Nilai Tambah
+## 3. Penerapan Nilai Tambah
 
 ### a. Struktur MVC (Model-View-Controller)
 Program ini menerapkan struktur **MVC (Model View Controller)**, yaitu struktur yang memisahkan program menjadi tiga peran utama yaitu Data (Model), Tampilan (View), dan Pengatur Alur (Controller), ditambah satu package `main` sebagai titik masuk program. Berikut struktur package pada program ini:
@@ -174,7 +174,7 @@ public void cetakData() {
 }
 ```
 
-Kedua method tersebut kemudian ditulis ulang (di-*override*) oleh `ProyekInternal`:
+Kedua method tersebut kemudian ditulis ulang atau di-*override* oleh `ProyekInternal`:
 
 ```java
 // ProyekInternal.java
@@ -209,5 +209,3 @@ public void cetakData() {
 ```
 
 Pada `cetakData()` di kedua subclass, program tetap memanggil `super.cetakData()` terlebih dahulu agar data umum tetap tercetak, lalu menambahkan baris cetak untuk atribut khususnya sendiri, sehingga kode tidak diulang percuma.
-
-Penerapan paling terlihat ada di `ProyekController` yang dimana seluruh proyek baik Internal maupun Klien disimpan bersama dalam satu wadah `ArrayList<Proyek>`. Ketika program memanggil `p.cetakData()` untuk setiap item dalam daftar, Java secara otomatis menjalankan versi `cetakData()` milik `ProyekInternal` atau `ProyekKlien`, sesuai jenis objek yang sebenarnya. Inilah yang disebut polymorphism saat runtime.
