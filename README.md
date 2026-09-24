@@ -208,6 +208,6 @@ public void cetakData() {
 }
 ```
 
-Pada `cetakData()` di kedua subclass, program tetap memanggil `super.cetakData()` terlebih dahulu (agar data umum tetap tercetak), lalu menambahkan baris cetak untuk atribut khususnya sendiri, sehingga kode tidak diulang percuma.
+Pada `cetakData()` di kedua subclass, program tetap memanggil `super.cetakData()` terlebih dahulu agar data umum tetap tercetak, lalu menambahkan baris cetak untuk atribut khususnya sendiri, sehingga kode tidak diulang percuma.
 
-Penerapan paling terlihat ada di `ProyekController`: seluruh proyek — baik Internal maupun Klien — disimpan bersama dalam satu wadah `ArrayList<Proyek>`. Ketika program memanggil `p.cetakData()` untuk setiap item dalam daftar, Java secara otomatis menjalankan versi `cetakData()` milik `ProyekInternal` atau `ProyekKlien`, sesuai jenis objek yang sebenarnya — bukan berdasarkan tipe `Proyek` yang tertulis di deklarasi. Inilah yang disebut *polymorphism saat runtime*.
+Penerapan paling terlihat ada di `ProyekController` yang dimana seluruh proyek baik Internal maupun Klien disimpan bersama dalam satu wadah `ArrayList<Proyek>`. Ketika program memanggil `p.cetakData()` untuk setiap item dalam daftar, Java secara otomatis menjalankan versi `cetakData()` milik `ProyekInternal` atau `ProyekKlien`, sesuai jenis objek yang sebenarnya. Inilah yang disebut *polymorphism saat runtime*.
