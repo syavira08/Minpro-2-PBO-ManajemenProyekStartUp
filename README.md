@@ -142,25 +142,7 @@ Dengan inheritance, penambahan jenis proyek baru menjadi lebih mudah, cukup deng
 
 ### a. Struktur MVC (Model-View-Controller)
 Program ini menerapkan struktur **MVC (Model View Controller)**, yaitu struktur yang memisahkan program menjadi tiga peran utama yaitu Data (Model), Tampilan (View), dan Pengatur Alur (Controller), ditambah satu package `main` sebagai titik masuk program. Berikut struktur package pada program ini:
-
-```
-Source Packages/
-├── main/
-│   └── MainApp.java          → Titik masuk program, menjalankan menu utama
-│
-├── controller/
-│   ├── ProyekController.java → Mengatur data proyek yaitu tambah, cari, update dan hapus
-│   └── Validasi.java         → Kumpulan aturan pengecekan input pengguna
-│
-├── model/
-│   ├── Proyek.java           → Superclass, berisi data umum sebuah proyek
-│   ├── ProyekInternal.java   → Subclass, khusus untuk proyek internal
-│   └── ProyekKlien.java      → Subclass, khusus untuk proyek klien
-│
-└── view/
-    └── ProyekView.java       → Menampilkan menu dan berinteraksi langsung dengan pengguna
-```
-
+> <img width="500" alt="Screenshot 2026-09-23 163122" src="https://github.com/user-attachments/assets/0be54283-d579-49fb-b83e-490500001951" />
 Penjelasan penerapan MVC pada setiap package:
 
 - **`model`**: Berisi kelas `Proyek`, `ProyekInternal`, dan `ProyekKlien`. Package ini merepresentasikan bagian **Model** dalam MVC, yaitu bagian yang menyimpan struktur data proyek beserta aturan validasinya. Model tidak ada hubungannya dengan tampilan menu atau logika CRUD, tugasnya murni menjaga data tetap konsisten.
@@ -171,7 +153,7 @@ Penjelasan penerapan MVC pada setiap package:
 
 - **`main`**: Berisi kelas `MainApp` yang menjadi titik masuk program. Kelas ini menghubungkan `view` dan `controller` lalu menjalankan siklus menu dari awal sampai program ditutup.
 
-Dengan pembagian ini, setiap bagian program bisa dikembangkan atau diperbaiki secara terpisah. Misalnya, jika tampilan menu ingin diubah, cukup edit file di `view` — tanpa perlu menyentuh logika penyimpanan data di `model` atau `controller`. Hal ini membuat program lebih rapi, mudah dibaca, dan mudah dikembangkan lebih lanjut di kemudian hari.
+Dengan pembagian ini, setiap bagian program bisa dikembangkan atau diperbaiki secara terpisah. Misalnya, jika tampilan menu ingin diubah, cukup edit file di `view` tanpa perlu menyentuh logika penyimpanan data di `model` atau `controller`. Hal ini membuat program lebih rapi, mudah dibaca, dan mudah dikembangkan lebih lanjut di kemudian hari.
 
 ### b. Polymorphism (Method Overriding)
 Polymorphism artinya method dengan nama yang sama bisa memberikan hasil berbeda tergantung objek yang memanggilnya. Dalam program ini, polymorphism diterapkan lewat **method overriding** pada method `getJenisProjek()` dan `cetakData()`.
