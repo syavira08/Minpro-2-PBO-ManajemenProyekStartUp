@@ -22,6 +22,8 @@ Disini pengguna diarahkan ke menu sesuai dengan angka yang dimasukkan. Setiap me
 - **Menu 1: Tambah Proyek**
   > <img width="550" alt="image" src="https://github.com/user-attachments/assets/9744da08-0178-4e33-86de-82afee726ed2" />
   Pengguna pertama-tama memilih jenis proyek yaitu Internal atau Klien. Setelah itu, program meminta data satu per satu yang terdiri dari ID, nama, deadline, dan data khusus sesuai jenis proyeknya. Jika semua data valid, proyek baru dibuat dan disimpan.
+  
+  Jika yang dipilih adalah jenis Klien, maka data khusus yang diminta pun berbeda dari Internal, program akan meminta Nama Klien dan Jenis Kebutuhan, yang keduanya juga divalidasi oleh Validasi sebelum objek ProyekKlien baru dibuat dan disimpan.
   > <img width="400" alt="image" src="https://github.com/user-attachments/assets/da0f6ed9-4193-40f4-b96b-9364a6f5e073" />
   Gambar diatas merupakan tampilan semua proyek yang menunjukkan bahwa proyek berhasil ditambahkan.
 
