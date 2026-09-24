@@ -137,3 +137,95 @@ public class ProyekKlien extends Proyek {
 Dengan inheritance, penambahan jenis proyek baru menjadi lebih mudah, cukup dengan membuat subclass baru yang meng-*extend* `Proyek`.
 
 ---
+
+## 4. Penerapan Nilai Tambah
+
+### a. Struktur MVC (Model-View-Controller)
+Program ini menerapkan struktur **MVC (Model View Controller)**, yaitu struktur yang memisahkan program menjadi tiga peran utama yaitu Data (Model), Tampilan (View), dan Pengatur Alur (Controller), ditambah satu package `main` sebagai titik masuk program. Berikut struktur package pada program ini:
+
+```
+Source Packages/
+├── main/
+│   └── MainApp.java          → Titik masuk program, menjalankan menu utama
+│
+├── controller/
+│   ├── ProyekController.java → Mengatur data proyek yaitu tambah, cari, update dan hapus
+│   └── Validasi.java         → Kumpulan aturan pengecekan input pengguna
+│
+├── model/
+│   ├── Proyek.java           → Superclass, berisi data umum sebuah proyek
+│   ├── ProyekInternal.java   → Subclass, khusus untuk proyek internal
+│   └── ProyekKlien.java      → Subclass, khusus untuk proyek klien
+│
+└── view/
+    └── ProyekView.java       → Menampilkan menu dan berinteraksi langsung dengan pengguna
+```
+
+Penjelasan penerapan MVC pada setiap package:
+
+- **`model`**: Berisi kelas `Proyek`, `ProyekInternal`, dan `ProyekKlien`. Package ini merepresentasikan bagian **Model** dalam MVC, yaitu bagian yang menyimpan struktur data proyek beserta aturan validasinya. Model tidak ada hubungannya dengan tampilan menu atau logika CRUD, tugasnya murni menjaga data tetap konsisten.
+
+- **`view`**: Berisi kelas `ProyekView`, yang merepresentasikan bagian **View** dalam MVC. Tugasnya menampilkan menu ke layar dan menerima input dari pengguna. View tidak menyimpan data sendiri, ia hanya meneruskan input pengguna ke controller dan menampilkan hasil yang diberikan controller.
+
+- **`controller`**: Berisi kelas `ProyekController` dan `Validasi`, yang merepresentasikan bagian **Controller** dalam MVC. `ProyekController` menjadi penghubung antara `view` dan `model`, ia menerima permintaan dari view, memproses logikanya seperti menyimpan, mencari, mengubah, atau menghapus data di `model`, lalu mengembalikan hasilnya. `Validasi` mendukung controller dengan memastikan setiap input pengguna sudah benar sebelum diproses lebih lanjut.
+
+- **`main`**: Berisi kelas `MainApp` yang menjadi titik masuk program. Kelas ini menghubungkan `view` dan `controller` lalu menjalankan siklus menu dari awal sampai program ditutup.
+
+Dengan pembagian ini, setiap bagian program bisa dikembangkan atau diperbaiki secara terpisah. Misalnya, jika tampilan menu ingin diubah, cukup edit file di `view` — tanpa perlu menyentuh logika penyimpanan data di `model` atau `controller`. Hal ini membuat program lebih rapi, mudah dibaca, dan mudah dikembangkan lebih lanjut di kemudian hari.
+
+### b. Polymorphism (Method Overriding)
+Polymorphism artinya method dengan nama yang sama bisa memberikan hasil berbeda tergantung objek yang memanggilnya. Dalam program ini, polymorphism diterapkan lewat **method overriding** pada method `getJenisProjek()` dan `cetakData()`.
+
+Di kelas induk `Proyek`, kedua method ini didefinisikan secara umum:
+
+```java
+// Proyek.java
+public String getJenisProjek() {
+    return "Umum";
+}
+
+public void cetakData() {
+    System.out.println("Jenis Projek : " + getJenisProjek());
+    System.out.println("ID Proyek    : " + idProjek);
+    System.out.println("Nama Proyek  : " + namaProjek);
+    System.out.println("Deadline     : " + deadline);
+}
+```
+
+Kedua method tersebut kemudian ditulis ulang (di-*override*) oleh `ProyekInternal`:
+
+```java
+// ProyekInternal.java
+@Override
+public String getJenisProjek() {
+    return "Internal";
+}
+
+@Override
+public void cetakData() {
+    super.cetakData();
+    System.out.println("Divisi Peminta : " + divisiPeminta);
+    System.out.println("Tujuan Proyek  : " + tujuanProjek);
+}
+```
+
+dan juga oleh `ProyekKlien`, dengan isi yang berbeda sesuai kebutuhannya:
+
+```java
+// ProyekKlien.java
+@Override
+public String getJenisProjek() {
+    return "Klien";
+}
+
+@Override
+public void cetakData() {
+    super.cetakData();
+    System.out.println("Nama Klien      : " + namaKlien);
+    System.out.println("Jenis Kebutuhan : " + jenisKebutuhan);
+}
+```
+
+Pada `cetakData()` di kedua subclass, program tetap memanggil `super.cetakData()` terlebih dahulu (agar data umum tetap tercetak), lalu menambahkan baris cetak untuk atribut khususnya sendiri, sehingga kode tidak diulang percuma.
+
+Penerapan paling terlihat ada di `ProyekController`: seluruh proyek — baik Internal maupun Klien — disimpan bersama dalam satu wadah `ArrayList<Proyek>`. Ketika program memanggil `p.cetakData()` untuk setiap item dalam daftar, Java secara otomatis menjalankan versi `cetakData()` milik `ProyekInternal` atau `ProyekKlien`, sesuai jenis objek yang sebenarnya — bukan berdasarkan tipe `Proyek` yang tertulis di deklarasi. Inilah yang disebut *polymorphism saat runtime*.
