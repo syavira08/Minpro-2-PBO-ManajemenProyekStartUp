@@ -50,3 +50,90 @@ Disini pengguna diarahkan ke menu sesuai dengan angka yang dimasukkan. Setiap me
   Setelah satu aksi selesai, program otomatis kembali menampilkan menu utama. Siklus ini terus berulang sampai pengguna memilih menu "Keluar".
 
 ---
+
+## 2. Penjelasan Penerapan Encapsulation dan Inheritance
+
+### Encapsulation 
+Encapsulation diterapkan dengan menyembunyikan data di dalam kelas dan hanya mengizinkan akses melalui method tertentu, bukan langsung dari luar.
+
+Semua atribut pada kelas `Proyek` dideklarasikan sebagai `private`, sehingga tidak bisa diakses atau diubah langsung dari kelas lain:
+
+```java
+public class Proyek {
+    private String idProjek;
+    private String namaProjek;
+    private String deadline;
+    ...
+}
+```
+
+Untuk membaca atau mengubah data tersebut, harus melalui method getter dan setter yang bersifat `public`. Setiap setter juga tidak langsung menyimpan data yang diberikan, melainkan memanggil kelas `Validasi` terlebih dahulu untuk memeriksa kevalidannya. Contohnya pada `setDeadline()`:
+
+```java
+public void setDeadline(String deadline) {
+    if (Validasi.isDeadlineValid(deadline)) {
+        this.deadline = deadline;
+    } else {
+        System.out.println("Format deadline tidak valid!");
+    }
+}
+```
+
+Jika deadline yang dimasukkan tidak sesuai format `dd-mm-yyyy`, maka nilai baru tidak akan disimpan dan data lama tetap dipertahankan. Pola yang sama juga diterapkan pada `setNamaProjek()` di `Proyek`, serta pada `setDivisiPeminta()`/`setTujuanProjek()` di `ProyekInternal` dan `setNamaKlien()`/`setJenisKebutuhan()` di `ProyekKlien`. Semuanya memvalidasi data lebih dulu sebelum benar-benar disimpan. Dengan cara ini, data proyek selalu terjaga kualitasnya dan tidak bisa diisi dengan nilai yang kosong atau salah format.
+
+### Inheritance
+Inheritance diterapkan pada relasi antar kelas model, di mana satu kelas menurunkan atribut dan method-nya ke kelas lain.
+
+`Proyek` berperan sebagai **superclass** yang menyimpan hal-hal yang dimiliki semua jenis proyek: ID, nama, deadline, serta method umum `getJenisProjek()` dan `cetakData()`:
+
+```java
+public class Proyek {
+    ...
+    public String getJenisProjek() {
+        return "Umum";
+    }
+
+    public void cetakData() {
+        System.out.println("Jenis Projek : " + getJenisProjek());
+        System.out.println("ID Proyek    : " + idProjek);
+        System.out.println("Nama Proyek  : " + namaProjek);
+        System.out.println("Deadline     : " + deadline);
+    }
+}
+```
+
+`ProyekInternal` dan `ProyekKlien` adalah **subclass** yang meng-*extend* `Proyek`. Keduanya otomatis mendapatkan seluruh atribut dan method milik `Proyek`, lalu menambahkan atribut khas miliknya sendiri. Saat atribut subclass dibuat, konstruktornya memanggil `super(idProjek, namaProjek, deadline)` untuk mengisi data umum lewat kelas induk, sehingga kode tidak perlu ditulis dua kali:
+
+```java
+// ProyekInternal.java
+public class ProyekInternal extends Proyek {
+    private String divisiPeminta;
+    private String tujuanProjek;
+
+    public ProyekInternal(String idProjek, String namaProjek, String deadline,
+                           String divisiPeminta, String tujuanProjek) {
+        super(idProjek, namaProjek, deadline);
+        setDivisiPeminta(divisiPeminta);
+        setTujuanProjek(tujuanProjek);
+    }
+}
+```
+
+```java
+// ProyekKlien.java
+public class ProyekKlien extends Proyek {
+    private String namaKlien;
+    private String jenisKebutuhan;
+
+    public ProyekKlien(String idProjek, String namaProjek, String deadline,
+                        String namaKlien, String jenisKebutuhan) {
+        super(idProjek, namaProjek, deadline);
+        setNamaKlien(namaKlien);
+        setJenisKebutuhan(jenisKebutuhan);
+    }
+}
+```
+
+Dengan inheritance, penambahan jenis proyek baru menjadi lebih mudah, cukup dengan membuat subclass baru yang meng-*extend* `Proyek`.
+
+---
