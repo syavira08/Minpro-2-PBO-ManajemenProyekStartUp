@@ -59,17 +59,8 @@ Encapsulation diterapkan dengan menyembunyikan data di dalam kelas dan hanya men
 Semua atribut pada kelas `Proyek` dideklarasikan sebagai `private`, sehingga tidak bisa diakses atau diubah langsung dari kelas lain:
 ><img width="500" alt="image" src="https://github.com/user-attachments/assets/ff7f7b8f-2b8d-4321-8bf9-8c3b4a2c31ee" />
 
-Untuk membaca atau mengubah data tersebut, harus melalui method getter dan setter yang bersifat `public`. Setiap setter juga tidak langsung menyimpan data yang diberikan, melainkan memanggil kelas `Validasi` terlebih dahulu untuk memeriksa kevalidannya. Contohnya pada `setDeadline()`:
-
-```java
-public void setDeadline(String deadline) {
-    if (Validasi.isDeadlineValid(deadline)) {
-        this.deadline = deadline;
-    } else {
-        System.out.println("Format deadline tidak valid!");
-    }
-}
-```
+Untuk membaca atau mengubah data tersebut, harus melalui method getter dan setter yang bersifat `public`. Setiap setter juga tidak langsung menyimpan data yang diberikan, melainkan memanggil kelas `Validasi` terlebih dahulu untuk memeriksa kevalidannya. Contohnya pada `setNamaProjek()`:
+><img width="600" alt="image" src="https://github.com/user-attachments/assets/48b5c729-f025-4e14-8c26-404ef007e6d0" />
 
 Jika deadline yang dimasukkan tidak sesuai format `dd-mm-yyyy`, maka nilai baru tidak akan disimpan dan data lama tetap dipertahankan. Pola yang sama juga diterapkan pada `setNamaProjek()` di `Proyek`, serta pada `setDivisiPeminta()`/`setTujuanProjek()` di `ProyekInternal` dan `setNamaKlien()`/`setJenisKebutuhan()` di `ProyekKlien`. Semuanya memvalidasi data lebih dulu sebelum benar-benar disimpan. Dengan cara ini, data proyek selalu terjaga kualitasnya dan tidak bisa diisi dengan nilai yang kosong atau salah format.
 
@@ -77,54 +68,13 @@ Jika deadline yang dimasukkan tidak sesuai format `dd-mm-yyyy`, maka nilai baru 
 Inheritance diterapkan pada relasi antar kelas model, di mana satu kelas menurunkan atribut dan method-nya ke kelas lain.
 
 `Proyek` berperan sebagai **superclass** yang menyimpan hal-hal yang dimiliki semua jenis proyek: ID, nama, deadline, serta method umum `getJenisProjek()` dan `cetakData()`:
-
-```java
-public class Proyek {
-    ...
-    public String getJenisProjek() {
-        return "Umum";
-    }
-
-    public void cetakData() {
-        System.out.println("Jenis Projek : " + getJenisProjek());
-        System.out.println("ID Proyek    : " + idProjek);
-        System.out.println("Nama Proyek  : " + namaProjek);
-        System.out.println("Deadline     : " + deadline);
-    }
-}
-```
+><img width="550" alt="image" src="https://github.com/user-attachments/assets/e78dbe33-d7cc-4233-aeb3-a5aca80b61a7" />
 
 `ProyekInternal` dan `ProyekKlien` adalah **subclass** yang meng-*extend* `Proyek`. Keduanya otomatis mendapatkan seluruh atribut dan method milik `Proyek`, lalu menambahkan atribut khas miliknya sendiri. Saat atribut subclass dibuat, konstruktornya memanggil `super(idProjek, namaProjek, deadline)` untuk mengisi data umum lewat kelas induk, sehingga kode tidak perlu ditulis dua kali:
+><img width="600" alt="image" src="https://github.com/user-attachments/assets/8daab543-aa0c-4c9c-bd9d-7787e9e682c1" />
+<br>
 
-```java
-// ProyekInternal.java
-public class ProyekInternal extends Proyek {
-    private String divisiPeminta;
-    private String tujuanProjek;
-
-    public ProyekInternal(String idProjek, String namaProjek, String deadline,
-                           String divisiPeminta, String tujuanProjek) {
-        super(idProjek, namaProjek, deadline);
-        setDivisiPeminta(divisiPeminta);
-        setTujuanProjek(tujuanProjek);
-    }
-}
-```
-
-```java
-// ProyekKlien.java
-public class ProyekKlien extends Proyek {
-    private String namaKlien;
-    private String jenisKebutuhan;
-
-    public ProyekKlien(String idProjek, String namaProjek, String deadline,
-                        String namaKlien, String jenisKebutuhan) {
-        super(idProjek, namaProjek, deadline);
-        setNamaKlien(namaKlien);
-        setJenisKebutuhan(jenisKebutuhan);
-    }
-}
-```
+><img width="600" alt="image" src="https://github.com/user-attachments/assets/7c4228c3-0aaa-43a3-8dbc-f4e91675f761" />
 
 Dengan inheritance, penambahan jenis proyek baru menjadi lebih mudah, cukup dengan membuat subclass baru yang meng-*extend* `Proyek`.
 
@@ -151,53 +101,12 @@ Dengan pembagian ini, setiap bagian program bisa dikembangkan atau diperbaiki se
 Polymorphism artinya method dengan nama yang sama bisa memberikan hasil berbeda tergantung objek yang memanggilnya. Dalam program ini, polymorphism diterapkan lewat **method overriding** pada method `getJenisProjek()` dan `cetakData()`.
 
 Di kelas induk `Proyek`, kedua method ini didefinisikan secara umum:
-
-```java
-// Proyek.java
-public String getJenisProjek() {
-    return "Umum";
-}
-
-public void cetakData() {
-    System.out.println("Jenis Projek : " + getJenisProjek());
-    System.out.println("ID Proyek    : " + idProjek);
-    System.out.println("Nama Proyek  : " + namaProjek);
-    System.out.println("Deadline     : " + deadline);
-}
-```
+><img width="600" alt="image" src="https://github.com/user-attachments/assets/e78dbe33-d7cc-4233-aeb3-a5aca80b61a7" />
 
 Kedua method tersebut kemudian ditulis ulang atau di-*override* oleh `ProyekInternal`:
-
-```java
-// ProyekInternal.java
-@Override
-public String getJenisProjek() {
-    return "Internal";
-}
-
-@Override
-public void cetakData() {
-    super.cetakData();
-    System.out.println("Divisi Peminta : " + divisiPeminta);
-    System.out.println("Tujuan Proyek  : " + tujuanProjek);
-}
-```
+><img width="600" alt="image" src="https://github.com/user-attachments/assets/4fc83bbe-e3bb-4294-bf26-e0e6ab9f7449" />
 
 dan juga oleh `ProyekKlien`, dengan isi yang berbeda sesuai kebutuhannya:
-
-```java
-// ProyekKlien.java
-@Override
-public String getJenisProjek() {
-    return "Klien";
-}
-
-@Override
-public void cetakData() {
-    super.cetakData();
-    System.out.println("Nama Klien      : " + namaKlien);
-    System.out.println("Jenis Kebutuhan : " + jenisKebutuhan);
-}
-```
+><img width="600" alt="image" src="https://github.com/user-attachments/assets/b2f5293d-f2bc-431d-b6d2-5c73e2fb2f0e" />
 
 Pada `cetakData()` di kedua subclass, program tetap memanggil `super.cetakData()` terlebih dahulu agar data umum tetap tercetak, lalu menambahkan baris cetak untuk atribut khususnya sendiri, sehingga kode tidak diulang percuma.
