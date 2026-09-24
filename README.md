@@ -57,15 +57,7 @@ Disini pengguna diarahkan ke menu sesuai dengan angka yang dimasukkan. Setiap me
 Encapsulation diterapkan dengan menyembunyikan data di dalam kelas dan hanya mengizinkan akses melalui method tertentu, bukan langsung dari luar.
 
 Semua atribut pada kelas `Proyek` dideklarasikan sebagai `private`, sehingga tidak bisa diakses atau diubah langsung dari kelas lain:
-
-```java
-public class Proyek {
-    private String idProjek;
-    private String namaProjek;
-    private String deadline;
-    ...
-}
-```
+><img width="500" alt="image" src="https://github.com/user-attachments/assets/ff7f7b8f-2b8d-4321-8bf9-8c3b4a2c31ee" />
 
 Untuk membaca atau mengubah data tersebut, harus melalui method getter dan setter yang bersifat `public`. Setiap setter juga tidak langsung menyimpan data yang diberikan, melainkan memanggil kelas `Validasi` terlebih dahulu untuk memeriksa kevalidannya. Contohnya pada `setDeadline()`:
 
